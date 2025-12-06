@@ -6,7 +6,7 @@
 using namespace std;
 
 template <typename T>
-int sequentialSearch(vector<T> v, T value) {
+int sequentialSearch(const vector<T>& v, T value) {
     for (int i = 0; i < v.size(); i++) {
         if (v[i] == value) {
             return i;
@@ -16,7 +16,7 @@ int sequentialSearch(vector<T> v, T value) {
 }
 
 template <typename T>
-int RecursiveSequentialSearch(vector<T> v, T value, int i = 0) {
+int RecursiveSequentialSearch(const vector<T>& v, T value, int i = 0) {
     if (i == v.size()) {
         return -1;
     }
@@ -27,12 +27,11 @@ int RecursiveSequentialSearch(vector<T> v, T value, int i = 0) {
 }
 
 template <typename T>
-int binarySearch(vector<T> v, T value) {
+int binarySearch(const vector<T>& v, T value) {
     int l = 0;
     int r = v.size() - 1;
-    sort(v.begin(), v.end());
 
-    while (l != r) {
+    while (l <= r) {
         int m = (l + r) / 2;
         if (v[m] == value) {
             return m;
@@ -52,16 +51,12 @@ int binarySearch(vector<T> v, T value) {
 }
 
 template <typename T>
-int RecursiveBinarySearch(vector<T> v, T value, int l, int r) {
-    int m = (l + r) / 2;
+int RecursiveBinarySearch(const vector<T>& v, T value, int l, int r) {
 
-    if (l == r) {
+    if (l > r) {
         return -1;
     }
-
-    if (v[l] == value) {
-        return l;
-    }
+    int m = (l + r) / 2;
 
     if (v[m] == value) {
         return m;
@@ -69,9 +64,9 @@ int RecursiveBinarySearch(vector<T> v, T value, int l, int r) {
     if (v[m] < value) {
         return RecursiveBinarySearch(v, value, m + 1, r);
     }
-    if (v[m] > value) {
-        return RecursiveBinarySearch(v, value, l, m - 1);
-    }
+        
+    return RecursiveBinarySearch(v, value, l, m - 1);
+    
 }
 
 int main() {
@@ -96,6 +91,7 @@ int main() {
         }else if (choice == 2) {
             cout << "Your target is at index: " << RecursiveSequentialSearch(v, target) << endl;
         }else if (choice == 3) {
+            sort(v.begin(), v.end());
             cout << "Your target is at index: " << binarySearch(v, target) << endl;
         }else if (choice == 4) {
             sort(v.begin(), v.end());
